@@ -115,6 +115,8 @@ class Keyboard:
         self.ble_id = self.data[1]
         self.heatmap = memoryview(self.data)[4:]
 
+        self.setup()
+
         ble_hid = HIDService()
         self.battery = BatteryService()
         self.battery.level = battery_level()
@@ -135,14 +137,13 @@ class Keyboard:
             conn = "BT%d" % self.ble_id
         if conn != self._connection:
             self._connection = conn
-            try:
-                if conn in self.action_maps:
-                    self.current_keymap = self.action_maps[self._connection]
-                else:
-                    self.current_keymap = self.actonmap
-                print("Connection changed to %s" % self._connection)
-            except:
-                pass
+
+            if conn in self.action_maps:
+                self.current_keymap = self.action_maps[self._connection]
+            else:
+                self.current_keymap = self.actonmap
+
+            print("Connection changed to %s" % self._connection)
 
             # reset `layer_mask` when keymap is changed
             self.layer_mask = 1
@@ -424,7 +425,6 @@ class Keyboard:
         return event
 
     def run(self):
-        self.setup()
         log = self.log
         matrix = self.matrix
         dev = Device(self)
