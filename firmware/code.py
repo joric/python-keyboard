@@ -99,7 +99,6 @@ def macro_handler(dev, n, is_down):
 def pairs_handler(dev, n):
     dev.send_text('You just triggered pair keys #{}\n'.format(n))
 
-
 keyboard.macro_handler = macro_handler
 keyboard.pairs_handler = pairs_handler
 
@@ -111,5 +110,24 @@ keyboard.pairs_handler = pairs_handler
 
 # Pairs: J & K, U & I
 keyboard.pairs = [{35, 36}, {20, 19}]
+
+import adafruit_ssd1306
+import board
+import busio
+import time
+from digitalio import DigitalInOut, Direction, Pull
+
+led = DigitalInOut(board.P1_10) # blue led
+led.direction = Direction.OUTPUT
+for i in range(4):
+    led.value = False if i%2 else True
+    time.sleep(0.2)
+
+i2c = busio.I2C(board.SCL, board.SDA)
+oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+
+oled.fill(0)
+oled.text("Hello from Python", 0, 0, 1)
+oled.show()
 
 keyboard.run()
