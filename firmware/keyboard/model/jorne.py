@@ -6,7 +6,7 @@ from .backlight import Backlight
 
 Matrix.ROWS = (board.P0_20, board.P0_13, board.P0_24, board.P0_09)
 Matrix.COLS = (board.P0_30, board.P0_31, board.P0_29, board.P0_02, board.P1_13, board.P0_03)
-Matrix.ROW2COL = True
+Matrix.ROW2COL = False
 
 # ESC   1   2   3   4   5   6   7   8   9   0   -   =  BACKSPACE
 # TAB   Q   W   E   R   T   Y   U   I   O   P   [   ]   |
